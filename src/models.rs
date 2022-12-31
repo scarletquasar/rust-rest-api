@@ -1,11 +1,7 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Deserialize)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct User {
     pub name: String,
     pub age: i32
-}
-
-pub struct UserGetRequest {
-    pub name: String
 }
