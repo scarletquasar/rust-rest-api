@@ -1,4 +1,5 @@
 use actix_web::{get, HttpResponse, Responder, post, web};
+use serde_json::Error;
 use uuid::Uuid;
 use crate::data::{get_user, insert_user};
 use crate::models::{User, UserCreateRequest, UserCreateResponse};
@@ -26,7 +27,17 @@ pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
 
 #[post("/users")]
 pub async fn post_user_route(body: String) -> impl Responder {
-    let user_request: UserCreateRequest = serde_json::from_str(&body).unwrap();
+    let user_request_result: Result<UserCreateRequest, Error> = serde_json::from_str(&body);
+    let valid_request: bool = match &user_request_result {
+        Ok(_) => true,
+        Err(_) => false
+    };
+
+    if !valid_request {
+        return HttpResponse::BadRequest().finish();
+    }
+
+    let user_request = user_request_result.unwrap();
     let user_id = Uuid::new_v4().to_string();
 
     let user = User {
