@@ -7,10 +7,10 @@
 
 **Endpoints:**
 
-| Route | Method | Requirements | Description |
-| ----- | ------ | ------------ | ----------- |
-| /users | POST | body: ```{name: String, age: String}``` | Create a new user |
-
+| Route | Method | Requirements | Description | Returns |
+| ----- | ------ | ------------ | ----------- | ------- |
+| /users | POST | body: ```{name: String, age: i32}``` | Create a new user | String (User uuid) |
+| /users/userId | POST | path: ```{userId: String}``` | Gets an user by id | User |
 ### Roadmap
 
 - [ ] ✨ Implement userId with auto-increment
