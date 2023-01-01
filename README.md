@@ -9,6 +9,7 @@
 
 | Route | Method | Requirements | Description |
 | ----- | ------ | ------------ | ----------- |
+| /users | POST | body: ```{name: String, age: String}``` | Create a new user |
 
 ### Roadmap
 
