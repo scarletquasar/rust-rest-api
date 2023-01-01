@@ -7,9 +7,9 @@ lazy_static! {
     static ref HASHMAP: Arc<Mutex<HashMap<String, User>>> = Arc::new(Mutex::new(HashMap::new()));
 }
 
-pub fn get_user(name: String) -> Option<User> {
+pub fn get_user(id: String) -> Option<User> {
     let map = (&HASHMAP).lock().unwrap();
-    let result = map.get(&name).cloned();
+    let result = map.get(&id).cloned();
 
     result
 }
@@ -19,7 +19,7 @@ pub fn insert_user(user: User) {
     let mutex = lock.write().unwrap();
     
     let mut map = mutex.lock().unwrap();
-    let user_name = (*user.name).to_string();
-    map.insert(user_name, user);
+    let user_id = (*user.user_id).to_string();
+    map.insert(user_id, user);
 }
 

@@ -3,10 +3,10 @@ use uuid::Uuid;
 use crate::data::{get_user, insert_user};
 use crate::models::{User, UserCreateRequest, UserCreateResponse};
 
-#[get("/users/{user_name}")]
+#[get("/users/{user_id}")]
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
-    let user_name = request.into_inner();
-    let result = get_user(user_name.to_string());
+    let user_id = request.into_inner();
+    let result = get_user(user_id.to_string());
 
     let user_found = match result {
         Some(_) => true,
