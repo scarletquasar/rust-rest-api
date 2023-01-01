@@ -1,7 +1,7 @@
 use actix_web::{get, HttpResponse, Responder, post, web};
 use uuid::Uuid;
 use crate::data::{get_user, insert_user};
-use crate::models::User;
+use crate::models::{User, UserCreateRequest};
 
 #[get("/users/{user_name}")]
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
@@ -26,8 +26,13 @@ pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
 
 #[post("/users")]
 pub async fn post_user_route(body: String) -> impl Responder {
-    let mut user: User = serde_json::from_str(&body).unwrap();
-    user.user_id = Uuid::new_v4().to_string();
+    let user_request: UserCreateRequest = serde_json::from_str(&body).unwrap();
+
+    let user = User {
+        name: user_request.name,
+        age: user_request.age,
+        user_id: Uuid::new_v4().to_string()
+    };
 
     insert_user(user);
     HttpResponse::Ok().body("")
