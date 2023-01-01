@@ -12,3 +12,8 @@ pub struct UserCreateRequest {
     pub name: String,
     pub age: i32
 }
+
+#[derive(Serialize)]
+pub struct UserCreateResponse {
+    pub user_id: String
+}
