@@ -5,6 +5,11 @@
 
 ### Usage
 
+**Endpoints:**
+
+| Route | Method | Requirements | Description |
+| ----- | ------ | ------------ | ----------- |
+
 ### Roadmap
 
 - [ ] ✨ Implement userId with auto-increment

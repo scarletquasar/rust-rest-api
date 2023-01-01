@@ -6,6 +6,7 @@ use crate::models::User;
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
     let user_name = request.into_inner();
     let result = get_user(user_name.to_string());
+    
     let user_found = match result {
         Some(_) => true,
         None => false
