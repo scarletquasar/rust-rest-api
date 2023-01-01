@@ -15,5 +15,6 @@ pub struct UserCreateRequest {
 
 #[derive(Serialize)]
 pub struct UserCreateResponse {
+    pub success: bool,
     pub user_id: String
 }

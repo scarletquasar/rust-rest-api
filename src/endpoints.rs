@@ -36,6 +36,7 @@ pub async fn post_user_route(body: String) -> impl Responder {
     };
 
     let response = UserCreateResponse {
+        success: true,
         user_id: user_id.to_string()
     };
 
