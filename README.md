@@ -14,10 +14,10 @@
 
 ### Roadmap
 
-- [ ] ✨ Implement userId with auto-increment
-- [ ] ⚒ Create an user
+- [x] ✨ Implement `user_id` with uuid
+- [x] ⚒ Create an user
 - [ ] ⚒ Create various users
-- [ ] 📚 Read a single user
+- [x] 📚 Read a single user
 - [ ] 📚 Read all the users
 - [ ] 📚 Read users with pagination
 - [ ] 🗑 Delete an user
