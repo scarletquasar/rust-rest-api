@@ -9,8 +9,8 @@
 
 | Route | Method | Requirements | Description | Returns |
 | ----- | ------ | ------------ | ----------- | ------- |
-| /users | POST | body: ```{name: String, age: i32}``` | Create a new user | String (User uuid) |
-| /users/user_id | POST | path: ```{user_id: String}``` | Gets an user by id | User |
+| /users/create | POST | body: ```{name: String, age: i32}``` | Create a new user | String (User uuid) |
+| /users/`user_id` | GET | path: ```{user_id: String}``` | Gets an user by id | User |
 
 ### Roadmap
 

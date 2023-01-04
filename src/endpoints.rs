@@ -25,7 +25,7 @@ pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
     HttpResponse::NotFound().body("Not found")
 }
 
-#[post("/users")]
+#[post("/users/create")]
 pub async fn post_user_route(body: String) -> impl Responder {
     let user_request_result: Result<UserCreateRequest, Error> = serde_json::from_str(&body);
     let valid_request: bool = match &user_request_result {
