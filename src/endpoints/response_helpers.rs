@@ -37,10 +37,13 @@ pub fn fetch_get_user_result(user_id: String) -> HttpResponse {
     };
 
     if user_found {
-        let user_object = result.unwrap();
+        let user_object = result
+            .expect(&[EXCEPT_DEFAULT_MESSAGE, "user_object"].concat());
+
         let user_string_result = serde_json::to_string(&user_object);
 
-        let user_string = user_string_result.unwrap();
+        let user_string = user_string_result
+            .expect(&[EXCEPT_DEFAULT_MESSAGE, "user_string"].concat());
         
         return HttpResponse::Ok().body(user_string)
     }
