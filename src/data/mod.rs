@@ -7,6 +7,14 @@ lazy_static! {
     static ref HASHMAP: Arc<Mutex<HashMap<String, User>>> = Arc::new(Mutex::new(HashMap::new()));
 }
 
+pub fn get_users() -> Vec<User> {
+    let map = (&HASHMAP)
+    .lock()
+    .expect(&[EXCEPT_MAP_READ_MESSAGE, "HASHMAP"].concat());
+
+    map.values().cloned().collect()
+}
+
 pub fn get_user(id: String) -> Option<User> {
     let map = (&HASHMAP)
         .lock()

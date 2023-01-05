@@ -1,4 +1,5 @@
 use actix_web::{HttpServer, App};
+use endpoints::get_users_route;
 use crate::endpoints::{get_user_route, post_user_route};
 
 mod data;
@@ -13,6 +14,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
+            .service(get_users_route)
             .service(get_user_route)
             .service(post_user_route)
     })

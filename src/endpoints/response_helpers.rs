@@ -3,7 +3,7 @@ use uuid::Uuid;
 
 use crate::{
     consts::EXCEPT_DEFAULT_MESSAGE,
-    data::{insert_user, get_user}, 
+    data::{insert_user, get_user, get_users}, 
     models::{UserCreateRequest, User, UserCreateResponse}
 };
 
@@ -25,6 +25,15 @@ pub fn fetch_create_user_result(user_request: UserCreateRequest) -> HttpResponse
         .expect(&[EXCEPT_DEFAULT_MESSAGE, "response_string"].concat());
 
     insert_user(user);
+    HttpResponse::Ok().body(response_string)
+}
+
+pub fn fetch_get_users_result() -> HttpResponse {
+    let users = get_users();
+
+    let response_string = serde_json::to_string(&users)
+        .expect(&[EXCEPT_DEFAULT_MESSAGE, "response_string"].concat());
+
     HttpResponse::Ok().body(response_string)
 }
 

@@ -2,9 +2,14 @@ pub mod response_helpers;
 
 use actix_web::{get, HttpResponse, Responder, post, web};
 use serde_json::Error;
-use crate::endpoints::response_helpers::{fetch_create_user_result, fetch_get_user_result};
+use crate::endpoints::response_helpers::{fetch_create_user_result, fetch_get_user_result, fetch_get_users_result};
 use crate::consts::EXCEPT_DEFAULT_MESSAGE;
 use crate::models::UserCreateRequest;
+
+#[get("/users")]
+pub async fn get_users_route() -> impl Responder {
+    fetch_get_users_result()
+}
 
 #[get("/users/{user_id}")]
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
