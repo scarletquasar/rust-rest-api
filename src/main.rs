@@ -4,6 +4,7 @@ use crate::endpoints::{get_user_route, post_user_route};
 mod data;
 mod endpoints;
 mod models;
+mod consts;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

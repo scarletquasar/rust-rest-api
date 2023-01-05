@@ -3,26 +3,12 @@ use serde_json::Error;
 use uuid::Uuid;
 use crate::data::{get_user, insert_user};
 use crate::models::{User, UserCreateRequest, UserCreateResponse};
+use crate::consts::EXCEPT_DEFAULT_MESSAGE;
 
 #[get("/users/{user_id}")]
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
     let user_id = request.into_inner();
-    let result = get_user(user_id.to_string());
-
-    let user_found = match result {
-        Some(_) => true,
-        None => false
-    };
-
-    if user_found {
-        let user_object = result.unwrap();
-        let user_string_result = serde_json::to_string(&user_object);
-        let user_string = user_string_result.unwrap();
-        
-        return HttpResponse::Ok().body(user_string)
-    }
-
-    HttpResponse::NotFound().body("Not found")
+    fetch_get_user_result(user_id)
 }
 
 #[post("/users/create")]
@@ -37,7 +23,13 @@ pub async fn post_user_route(body: String) -> impl Responder {
         return HttpResponse::BadRequest().finish();
     }
 
-    let user_request = user_request_result.unwrap();
+    let user_request = user_request_result
+        .expect(&[EXCEPT_DEFAULT_MESSAGE, "user_request"].concat());
+
+    fetch_create_user_result(user_request)
+}
+
+fn fetch_create_user_result(user_request: UserCreateRequest) -> HttpResponse {
     let user_id = Uuid::new_v4().to_string();
 
     let user = User {
@@ -51,8 +43,29 @@ pub async fn post_user_route(body: String) -> impl Responder {
         user_id: user_id.to_string()
     };
 
-    let response_string = serde_json::to_string(&response).unwrap();
+    let response_string = serde_json::to_string(&response)
+        .expect(&[EXCEPT_DEFAULT_MESSAGE, "response_string"].concat());
 
     insert_user(user);
     HttpResponse::Ok().body(response_string)
+}
+
+fn fetch_get_user_result(user_id: String) -> HttpResponse {
+    let result = get_user(user_id.to_string());
+
+    let user_found = match result {
+        Some(_) => true,
+        None => false
+    };
+
+    if user_found {
+        let user_object = result.unwrap();
+        let user_string_result = serde_json::to_string(&user_object);
+
+        let user_string = user_string_result.unwrap();
+        
+        return HttpResponse::Ok().body(user_string)
+    }
+
+    HttpResponse::NotFound().body("Not found")
 }
