@@ -1,9 +1,10 @@
+pub mod response_helpers;
+
 use actix_web::{get, HttpResponse, Responder, post, web};
 use serde_json::Error;
-use uuid::Uuid;
-use crate::data::{get_user, insert_user};
-use crate::models::{User, UserCreateRequest, UserCreateResponse};
+use crate::endpoints::response_helpers::{fetch_create_user_result, fetch_get_user_result};
 use crate::consts::EXCEPT_DEFAULT_MESSAGE;
+use crate::models::UserCreateRequest;
 
 #[get("/users/{user_id}")]
 pub async fn get_user_route(request: web::Path<String>) -> impl Responder {
@@ -27,45 +28,4 @@ pub async fn post_user_route(body: String) -> impl Responder {
         .expect(&[EXCEPT_DEFAULT_MESSAGE, "user_request"].concat());
 
     fetch_create_user_result(user_request)
-}
-
-fn fetch_create_user_result(user_request: UserCreateRequest) -> HttpResponse {
-    let user_id = Uuid::new_v4().to_string();
-
-    let user = User {
-        name: user_request.name,
-        age: user_request.age,
-        user_id: user_id.to_string()
-    };
-
-    let response = UserCreateResponse {
-        success: true,
-        user_id: user_id.to_string()
-    };
-
-    let response_string = serde_json::to_string(&response)
-        .expect(&[EXCEPT_DEFAULT_MESSAGE, "response_string"].concat());
-
-    insert_user(user);
-    HttpResponse::Ok().body(response_string)
-}
-
-fn fetch_get_user_result(user_id: String) -> HttpResponse {
-    let result = get_user(user_id.to_string());
-
-    let user_found = match result {
-        Some(_) => true,
-        None => false
-    };
-
-    if user_found {
-        let user_object = result.unwrap();
-        let user_string_result = serde_json::to_string(&user_object);
-
-        let user_string = user_string_result.unwrap();
-        
-        return HttpResponse::Ok().body(user_string)
-    }
-
-    HttpResponse::NotFound().body("Not found")
 }
