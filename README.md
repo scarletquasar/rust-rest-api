@@ -19,7 +19,7 @@
 - [x] ⚒ Create an user
 - [ ] ⚒ Create various users
 - [x] 📚 Read a single user
-- [ ] 📚 Read all the users
+- [x] 📚 Read all the users
 - [ ] 📚 Read users with pagination
 - [ ] 🗑 Delete an user
 - [ ] 🗑 Delete various users
