@@ -7,6 +7,34 @@ use crate::{
     models::{UserCreateRequest, User, UserCreateResponse}
 };
 
+pub fn fecth_create_users_result(users_request: Vec<UserCreateRequest>) -> HttpResponse {
+    let mut responses: Vec<UserCreateResponse> = vec![];
+
+    for request_item in users_request {
+        let user_id = Uuid::new_v4().to_string();
+         
+        let user = User {
+            name: request_item.name,
+            age: request_item.age,
+            user_id: user_id.to_string()
+        };
+
+        let response = UserCreateResponse {
+            success: true,
+            user_id: user_id.to_string()
+        };
+    
+        insert_user(user);
+        responses.push(response);
+    }
+
+    let response_string = serde_json::to_string(&responses)
+        .expect(&[EXCEPT_DEFAULT_MESSAGE, "response_string"].concat());
+
+    HttpResponse::Ok().body(response_string)
+    
+}
+
 pub fn fetch_create_user_result(user_request: UserCreateRequest) -> HttpResponse {
     let user_id = Uuid::new_v4().to_string();
 
