@@ -87,3 +87,7 @@ pub fn fetch_get_user_result(user_id: String) -> HttpResponse {
 
     HttpResponse::NotFound().body("Not found")
 }
+
+pub fn fetch_delete_user_result(user_id: String) -> HttpResponse {
+
+}
